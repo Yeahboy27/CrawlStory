@@ -10,7 +10,6 @@ module.exports = {
         return dbo.collection('Story').find({id: storyId}).toArray().then((docs) => {
             return docs[0];
         }).then(function (items) {
-            // console.log(items);
             return items;
         });
     },
@@ -41,18 +40,16 @@ module.exports = {
                     console.log(doc);
                 }
             );
+    },
+
+    findStoryWithUrl: function (db, url) {
+        var dbo = db.db('DBMongo');
+        var collection = dbo.collection('Story');
+        collection.find({
+            url: url
+        }).toArray().then(function (items) {
+            return items;
+        })
     }
 };
 
-// module.exports = {
-//     FindinCol1: function() {
-//         return MongoClient.connect('mongodb://localhost:27017/db1').then(function(db) {
-//             var collection = db.collection('col1');
-//
-//             return collection.find().toArray();
-//         }).then(function(items) {
-//             console.log(items);
-//             return items;
-//         });
-//     }
-// };

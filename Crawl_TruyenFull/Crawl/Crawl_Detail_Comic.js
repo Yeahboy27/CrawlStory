@@ -3,6 +3,8 @@
  */
 var {Chapter} = require('../Model/Chapter');
 var {Story} = require('../Model/Story');
+var {StoryDetail} = require('../Model/StoryDetail');
+
 const {MongoClient, ObjectID} = require('mongodb');
 
 var Crawler = require('crawler');
@@ -32,12 +34,28 @@ var c = new Crawler({
             var content = $('.story_description').contents()[1].data;
             var view = $('.truyeninfo .item li .cp1:contains("Lần")').parent().children().eq(1).text();
             var numberofSplitChapter = $('.page-split').children().eq($('.page-split').children().length -1).text();
-            db.updateStoryWithId(res.options.database, res.options.storyId, numberofSplitChapter,category,author,totalChapter,content,urlImage,view,status);
-        }}
+            // db.updateStoryWithId(res.options.database, res.options.storyId, numberofSplitChapter,category,author,totalChapter,content,urlImage,view,status);
+            var newStoryDetail = new StoryDetail ({
+                urlImage: urlImage,
+                author: author,
+                category: category,
+                totalChapter: totalChapter,
+                status: status,
+                content: content,
+                view: view,
+                numberofSplitChapter: numberofSplitChapter
+                })
+             return newStoryDetail
+            }}
         done();
     }
 })
 
+module.exports =  {
+    crawlNewStory: function(db, url, title, newChapter, updateTime) {
+        c.que
+    }
+}
 MongoClient.connect('mongodb://localhost:27017/TodoApp', (err, database) => {
     if(err) {
         return console.log('Unable Connect Mongodb');
@@ -54,6 +72,7 @@ MongoClient.connect('mongodb://localhost:27017/TodoApp', (err, database) => {
         console.error('The promise was rejected', err, err.stack);
         })
     }
+    database.close();
 })
 
 
