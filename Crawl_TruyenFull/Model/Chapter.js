@@ -12,6 +12,7 @@ var chapterSchema = new Schema({
     storyId: Number,
     url: String,
     date: { type: Date, default: Date.now },
+    ePub: Buffer
 });
 
 chapterSchema.method('saveChapterToMongoDB', function () {
